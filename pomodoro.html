@@ -1,0 +1,200 @@
+<html>
+<head>
+<style>
+#garden {
+	color: white;
+	text-align: center;
+	border: 2px solid black;
+	border-radius: 10px;
+}
+
+.inline {
+	display: inline-block;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.red-text {
+	color: red;
+	font-size: 3em;
+}
+
+.green-text {
+	color: green;
+	font-size: 3em;
+}
+
+.red-background {
+	background: red;
+}
+
+.green-background {
+	background: green;
+}
+
+</style>
+</head>
+<body>
+<div id="garden" class="red-background">
+<div id="barometer" class="green-text">
+Working!
+</div>
+<div>
+Set Time
+</div>
+<div id="takeTime" class="inline clickable">
+-
+</div>
+<div id="discipline" class="inline">
+1
+</div>
+<div id="addTime" class="inline clickable">
++
+</div>
+<div>
+Set Break
+</div>
+<div id="takeBreak" class="inline clickable">
+-
+</div>
+<div id="siesta" class="inline">
+2
+</div>
+<div id="addBreak" class="inline clickable">
++
+</div>
+<div id="timer" class="clickable">
+<div>
+Timer
+</div>
+<div id="minutes" class="inline">
+1
+</div>
+<div class="inline">
+:
+</div>
+<div id="seconds" class="inline">
+00
+</div>
+</div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<script>
+
+var discipline = 1;
+var siesta = 2;
+var minutes = 1;
+var seconds = 0;
+var timer = "off";
+var condition = "working";
+var gunshot;
+
+
+$("#takeTime").on("click", function() {
+	if (discipline > 1 && timer == "off") {
+		discipline = discipline - 1;
+		$("#discipline").html(discipline);
+		if (condition == "working") {
+			minutes = discipline;
+			$("#minutes").html(minutes);
+			seconds = 0;
+			$("#seconds").html("0" + seconds.toString());
+		}
+	}
+});
+
+$("#addTime").on("click", function() {
+	if (discipline < 999 && timer == "off") {
+		discipline = discipline + 1;
+		$("#discipline").html(discipline);
+		if (condition == "working") {
+			minutes = discipline;
+			$("#minutes").html(minutes);
+			seconds = 0;
+			$("#seconds").html("0" + seconds.toString());
+		}
+	}
+});
+
+$("#takeBreak").on("click", function() {
+	if (siesta > 1 && timer == "off") {
+		siesta = siesta - 1;
+		$("#siesta").html(siesta);
+		if (condition == "resting") {
+			minutes = siesta;
+			$("#minutes").html(minutes);
+			seconds = 0;
+			$("#seconds").html("0" + seconds.toString());
+		}
+	}
+});
+
+$("#addBreak").on("click", function() {
+	if (siesta < 999 && timer == "off") {
+		siesta = siesta + 1;
+		$("#siesta").html(siesta);
+		if (condition == "resting") {
+			minutes = siesta;
+			$("#minutes").html(minutes);
+			seconds = 0;
+			$("#seconds").html("0" + seconds.toString());
+		}
+	}
+});
+
+var countdown = function() {
+	if (seconds > 0 && seconds < 11) {
+		seconds = seconds - 1;
+		$("#seconds").html("0" + seconds.toString());
+	}
+	if (seconds > 10) {
+		seconds = seconds -1;
+		$("#seconds").html(seconds);
+	}
+	if (seconds === 0 && minutes > 0) {
+		seconds = 59;
+		$("#seconds").html(seconds);
+		minutes = minutes - 1;
+		$("#minutes").html(minutes);
+	}
+	if (seconds === 0 && minutes === 0) {
+		if (condition == "working") {
+			minutes = siesta;
+			$("#minutes").html(minutes);
+			seconds = 0;
+			$("#seconds").html("0" + seconds.toString());
+			$("#garden").removeClass("red-background").addClass("green-background");
+			$("#barometer").removeClass("green-text").addClass("red-text").html("Resting!");
+			condition = "resting";
+		} else if (condition == "resting") {
+			minutes = discipline;
+			$("#minutes").html(minutes);
+			seconds = 0;
+			$("#seconds").html("0" + seconds.toString());
+			$("#garden").removeClass("green-background").addClass("red-background");
+			$("#barometer").removeClass("red-text").addClass("green-text").html("Working!");
+			condition = "working";
+		}
+	}
+}; 
+
+$("#timer").on("click", function() {
+	if (timer == "off") {
+		gunshot = setInterval(countdown, 1000);
+		timer = "on";
+	} else if (timer == "on") {
+		clearInterval(gunshot);
+		timer = "off";
+	}
+});
+
+
+
+</script>
+</body>
+</html>

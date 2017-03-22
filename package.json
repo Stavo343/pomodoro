@@ -1,0 +1,19 @@
+{
+  "name": "pomodoro",
+  "version": "1.0.0",
+  "description": "This app acts as a pomodoro clock, iterating through adjustable working and break times.",
+  "main": "pomodoro.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/stavo343/pomodoro.git"
+  },
+  "author": "stavo343",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stavo343/pomodoro/issues"
+  },
+  "homepage": "https://github.com/stavo343/pomodoro#readme"
+}
