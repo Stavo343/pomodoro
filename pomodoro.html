@@ -1,200 +1,228 @@
 <html>
 <head>
+	<title>Pomodoro Clock</title>
 <style>
+@import url('https://fonts.googleapis.com/css?family=Carter+One');
+@import url('https://fonts.googleapis.com/css?family=Life+Savers');
+
 #garden {
-	color: white;
-	text-align: center;
-	border: 2px solid black;
-	border-radius: 10px;
+  color: #f27204;
+  width: 400px;
+  position: absolute;
+  margin: 5% -50% 20% 50%;
+  transform: translate(-50%);
+  text-align: center;
+  font-family: life savers;
+  font-weight: bold;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+#barometer {
+  font-family: carter one;
 }
 
 .inline {
-	display: inline-block;
+  display: inline-block;
 }
 
 .clickable {
-	cursor: pointer;
-}
-
-.red-text {
-	color: red;
-	font-size: 3em;
+  cursor: pointer;
 }
 
 .green-text {
-	color: green;
-	font-size: 3em;
+  color: #716e02;
+  font-size: 3em;
 }
 
-.red-background {
-	background: red;
+.red-text {
+  color: #750102;
+  font-size: 3em;
 }
 
 .green-background {
-	background: green;
+  background: #716e02;
+}
+
+.red-background {
+  background: #750102;
+}
+
+a {
+	color: white;
 }
 
 </style>
 </head>
-<body>
-<div id="garden" class="red-background">
-<div id="barometer" class="green-text">
-Working!
+  <div id="garden" class="red-background">
+  <div id="barometer" class="green-text">
+    Working!
+  </div>
+  <div>
+    Set Time
+  </div>
+  <div id="takeTime" class="inline clickable">
+    -
+  </div>
+  <div id="discipline" class="inline">
+    25
+  </div>
+  <div id="addTime" class="inline clickable">
+    +
+  </div>
+  <div>
+    Set Break
+  </div>
+  <div id="takeBreak" class="inline clickable">
+    -
+  </div>
+  <div id="siesta" class="inline">
+    5
+  </div>
+  <div id="addBreak" class="inline clickable">
+    +
+  </div>
+  <div id="timer" class="clickable">
+    <div>
+      Timer
+    </div>
+    <div id="minutes" class="inline">
+      25
+    </div>
+    <div class="inline">
+      :
+    </div>
+    <div id="seconds" class="inline">
+      00
+    </div>
+  </div>
+  </br>
+  <div>coded by <a href="#">Stephen Nierste</a></div>
 </div>
-<div>
-Set Time
-</div>
-<div id="takeTime" class="inline clickable">
--
-</div>
-<div id="discipline" class="inline">
-1
-</div>
-<div id="addTime" class="inline clickable">
-+
-</div>
-<div>
-Set Break
-</div>
-<div id="takeBreak" class="inline clickable">
--
-</div>
-<div id="siesta" class="inline">
-2
-</div>
-<div id="addBreak" class="inline clickable">
-+
-</div>
-<div id="timer" class="clickable">
-<div>
-Timer
-</div>
-<div id="minutes" class="inline">
-1
-</div>
-<div class="inline">
-:
-</div>
-<div id="seconds" class="inline">
-00
-</div>
-</div>
-</div>
-
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 <script>
 
-var discipline = 1;
-var siesta = 2;
-var minutes = 1;
+var discipline = 25;
+var siesta = 5;
+var minutes = 25;
 var seconds = 0;
 var timer = "off";
 var condition = "working";
 var gunshot;
 
-
+//Reduce work timer
 $("#takeTime").on("click", function() {
-	if (discipline > 1 && timer == "off") {
-		discipline = discipline - 1;
-		$("#discipline").html(discipline);
-		if (condition == "working") {
-			minutes = discipline;
-			$("#minutes").html(minutes);
-			seconds = 0;
-			$("#seconds").html("0" + seconds.toString());
-		}
-	}
+  if (discipline > 1 && timer == "off") {
+    discipline = discipline - 1;
+    $("#discipline").html(discipline);
+    if (condition == "working") {
+      minutes = discipline;
+      $("#minutes").html(minutes);
+      seconds = 0;
+      $("#seconds").html("0" + seconds.toString());
+    }
+  }
 });
 
+//Increase work timer
 $("#addTime").on("click", function() {
-	if (discipline < 999 && timer == "off") {
-		discipline = discipline + 1;
-		$("#discipline").html(discipline);
-		if (condition == "working") {
-			minutes = discipline;
-			$("#minutes").html(minutes);
-			seconds = 0;
-			$("#seconds").html("0" + seconds.toString());
-		}
-	}
+  if (discipline < 999 && timer == "off") {
+    discipline = discipline + 1;
+    $("#discipline").html(discipline);
+    if (condition == "working") {
+      minutes = discipline;
+      $("#minutes").html(minutes);
+      seconds = 0;
+      $("#seconds").html("0" + seconds.toString());
+    }
+  }
 });
 
+//Reduce break timer
 $("#takeBreak").on("click", function() {
-	if (siesta > 1 && timer == "off") {
-		siesta = siesta - 1;
-		$("#siesta").html(siesta);
-		if (condition == "resting") {
-			minutes = siesta;
-			$("#minutes").html(minutes);
-			seconds = 0;
-			$("#seconds").html("0" + seconds.toString());
-		}
-	}
+  if (siesta > 1 && timer == "off") {
+    siesta = siesta - 1;
+    $("#siesta").html(siesta);
+    if (condition == "resting") {
+      minutes = siesta;
+      $("#minutes").html(minutes);
+      seconds = 0;
+      $("#seconds").html("0" + seconds.toString());
+    }
+  }
 });
 
+//Increase break timer
 $("#addBreak").on("click", function() {
-	if (siesta < 999 && timer == "off") {
-		siesta = siesta + 1;
-		$("#siesta").html(siesta);
-		if (condition == "resting") {
-			minutes = siesta;
-			$("#minutes").html(minutes);
-			seconds = 0;
-			$("#seconds").html("0" + seconds.toString());
-		}
-	}
+  if (siesta < 999 && timer == "off") {
+    siesta = siesta + 1;
+    $("#siesta").html(siesta);
+    if (condition == "resting") {
+      minutes = siesta;
+      $("#minutes").html(minutes);
+      seconds = 0;
+      $("#seconds").html("0" + seconds.toString());
+    }
+  }
 });
 
+//Each individual second
 var countdown = function() {
-	if (seconds > 0 && seconds < 11) {
-		seconds = seconds - 1;
-		$("#seconds").html("0" + seconds.toString());
-	}
-	if (seconds > 10) {
-		seconds = seconds -1;
-		$("#seconds").html(seconds);
-	}
-	if (seconds === 0 && minutes > 0) {
-		seconds = 59;
-		$("#seconds").html(seconds);
-		minutes = minutes - 1;
-		$("#minutes").html(minutes);
-	}
-	if (seconds === 0 && minutes === 0) {
-		if (condition == "working") {
-			minutes = siesta;
-			$("#minutes").html(minutes);
-			seconds = 0;
-			$("#seconds").html("0" + seconds.toString());
-			$("#garden").removeClass("red-background").addClass("green-background");
-			$("#barometer").removeClass("green-text").addClass("red-text").html("Resting!");
-			condition = "resting";
-		} else if (condition == "resting") {
-			minutes = discipline;
-			$("#minutes").html(minutes);
-			seconds = 0;
-			$("#seconds").html("0" + seconds.toString());
-			$("#garden").removeClass("green-background").addClass("red-background");
-			$("#barometer").removeClass("red-text").addClass("green-text").html("Working!");
-			condition = "working";
-		}
-	}
-}; 
+  if (seconds > 0 && seconds < 11) {
+    seconds = seconds - 1;
+    $("#seconds").html("0" + seconds.toString());
+  }
+  if (seconds > 10) {
+    seconds = seconds - 1;
+    $("#seconds").html(seconds);
+  }
+  if (seconds === 0 && minutes > 0) {
+    seconds = 59;
+    $("#seconds").html(seconds);
+    minutes = minutes - 1;
+    $("#minutes").html(minutes);
+  }
+  //Switch modes once timer reaches zero
+  if (seconds === 0 && minutes === 0) {
+    if (condition == "working") {
+      minutes = siesta;
+      $("#minutes").html(minutes);
+      seconds = 0;
+      $("#seconds").html("0" + seconds.toString());
+      $("#garden").removeClass("red-background").addClass("green-background");
+      $("#barometer")
+        .removeClass("green-text")
+        .addClass("red-text")
+        .html("Resting!");
+      condition = "resting";
+    } else if (condition == "resting") {
+      minutes = discipline;
+      $("#minutes").html(minutes);
+      seconds = 0;
+      $("#seconds").html("0" + seconds.toString());
+      $("#garden").removeClass("green-background").addClass("red-background");
+      $("#barometer")
+        .removeClass("red-text")
+        .addClass("green-text")
+        .html("Working!");
+      condition = "working";
+    }
+  }
+};
 
+//Starting and stopping the timer
 $("#timer").on("click", function() {
-	if (timer == "off") {
-		gunshot = setInterval(countdown, 1000);
-		timer = "on";
-	} else if (timer == "on") {
-		clearInterval(gunshot);
-		timer = "off";
-	}
+  if (timer == "off") {
+    gunshot = setInterval(countdown, 1000);
+    timer = "on";
+  } else if (timer == "on") {
+    clearInterval(gunshot);
+    timer = "off";
+  }
 });
 
-
-
-</script>
-</body>
+    </script>
+  </body>
 </html>
